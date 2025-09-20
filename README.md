@@ -5,14 +5,6 @@ The enhancement adds a conversational interface (EC2 Remediation Assistant) that
 
 ---
 
-## Repo structure
-/ec2-ai-agent-enhancement
-├── README.md
-├── ec2-ai-agent-enhancement.xml
-├── Diagram.png
-
----
-
 ## System Overview
 
 The AI Agent sits between ServiceNow workflows and the existing AWS Integration Server. It can:
