@@ -48,7 +48,7 @@ See `Diagram.png` for the enhanced architecture:
   - **Description**: conversational remediation specialist for DevOps
   - **Role/Instructions**: use the Agent Instructions above
     
-![Ai Agent Setup](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/Diagram.png)
+![Ai Agent Setup](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/ai%20agent%20setup.png)
 
 ### 3. Create Script Tool
 - Add a **Script Tool** in AI Agent Studio:
