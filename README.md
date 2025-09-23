@@ -24,6 +24,8 @@ See `Diagram.png` for the enhanced architecture:
 - Existing path: AWS EC2 → AWS Integration Server → ServiceNow EC2 Instance table → Flow Designer.
 - New path: Flow Designer → AI Agent (conversational tool) → Script Tool (calls RemediationHelper) → AWS Integration Server API.
 - Both paths update the Remediation Log and can create incidents.
+![Architecture Diagram]()
+
 
 ---
 
@@ -46,6 +48,8 @@ See `Diagram.png` for the enhanced architecture:
   - **Name**: `EC2 Remediation Assistant`
   - **Description**: conversational remediation specialist for DevOps
   - **Role/Instructions**: use the Agent Instructions above
+![Ai Agent Setup]()
+
 
 ### 3. Create Script Tool
 - Add a **Script Tool** in AI Agent Studio:
@@ -57,13 +61,13 @@ See `Diagram.png` for the enhanced architecture:
     - Call the same REST message that `EC2RemediationHelper` uses.
     - Insert a `Remediation Log` entry identical in shape to the manual path.
     - Return `{ success, message, log_id, http_status }`.
-
-> Note: adding a tool creates records in `sn_aia_agent_tool_m2m`. Those records must be captured in the update set.
+![Script Tool]()
 
 ### 4. Attach Tool to Agent
 - Open the Agent → **Tools** → Add the Script Tool.
 - Configure tool parameters to return human-readable responses.
 - Test the tool in Studio with sample `instance_id` values.
+![Script Tool]()
 
 ### 5. Flow Designer integration
 - Update the existing flow or create an execution plan that:
@@ -71,6 +75,9 @@ See `Diagram.png` for the enhanced architecture:
   - Optionally calls AI Search as before.
   - Invokes the AI Agent (conversation) when interactive remediation is desired.
   - If agent executes remediation, capture results in the flow and link to incident.
+ 
+  ![Flow Designer]()
+
 
 ### 6. UI / Approval
 - Keep the manual **Trigger EC2 Remediation** button.
@@ -81,10 +88,17 @@ See `Diagram.png` for the enhanced architecture:
 ## Testing & Validation
 
 ### Conversational scenarios
-- **Direct**: `Restart instance i-09ae69f1cb71f622e`
-- **Incident-based**: `Help me solve incident INC0001234` (agent reads short_description)
+- **Direct**: `Restart instance i-008163ca9714cf100`
+- **Incident-based**: `Help me solve incident INC0010019` (agent reads short_description)
 - **Invalid**: malformed IDs (agent asks for correction)
+  - Restart server web-01
+  - Help me with incident INC9999999
+  - Restart instance i-invalidformat
+  - Fix server-production-01
 - **Approval**: agent must pause and await explicit "approve" before executing
+
+  ![Valid Inputs]()
+  ![Invalid Inputs]()
 
 ### Integration checks
 - Confirm API requests match manual path (endpoint, method, headers, body).
