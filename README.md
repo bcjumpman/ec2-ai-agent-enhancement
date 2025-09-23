@@ -14,8 +14,6 @@ The AI Agent sits between ServiceNow workflows and the existing AWS Integration 
 - Call the same remediation API used by `EC2RemediationHelper`.
 - Log every attempt in the `Remediation Log` table.
 
-Both manual (UI Action) and conversational paths use the same API and logging. This keeps audit records consistent.
-
 ---
 
 ## Architecture Diagram
@@ -24,7 +22,8 @@ See `Diagram.png` for the enhanced architecture:
 - Existing path: AWS EC2 → AWS Integration Server → ServiceNow EC2 Instance table → Flow Designer.
 - New path: Flow Designer → AI Agent (conversational tool) → Script Tool (calls RemediationHelper) → AWS Integration Server API.
 - Both paths update the Remediation Log and can create incidents.
-![Architecture Diagram]()
+  
+![Architecture Diagram](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/Diagram.png)
 
 
 ---
@@ -48,8 +47,8 @@ See `Diagram.png` for the enhanced architecture:
   - **Name**: `EC2 Remediation Assistant`
   - **Description**: conversational remediation specialist for DevOps
   - **Role/Instructions**: use the Agent Instructions above
-![Ai Agent Setup]()
-
+    
+![Ai Agent Setup](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/Diagram.png)
 
 ### 3. Create Script Tool
 - Add a **Script Tool** in AI Agent Studio:
@@ -61,13 +60,16 @@ See `Diagram.png` for the enhanced architecture:
     - Call the same REST message that `EC2RemediationHelper` uses.
     - Insert a `Remediation Log` entry identical in shape to the manual path.
     - Return `{ success, message, log_id, http_status }`.
-![Script Tool]()
+      
+![Script Tool](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/script%20setup1.png)
 
 ### 4. Attach Tool to Agent
 - Open the Agent → **Tools** → Add the Script Tool.
 - Configure tool parameters to return human-readable responses.
 - Test the tool in Studio with sample `instance_id` values.
-![Script Tool]()
+  
+![Script Tool](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/script%20setup2.png)
+![Script Tool](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/script%20setup3.png)
 
 ### 5. Flow Designer integration
 - Update the existing flow or create an execution plan that:
@@ -75,8 +77,8 @@ See `Diagram.png` for the enhanced architecture:
   - Optionally calls AI Search as before.
   - Invokes the AI Agent (conversation) when interactive remediation is desired.
   - If agent executes remediation, capture results in the flow and link to incident.
- 
-  ![Flow Designer]()
+![Successful Inquiries: Incident](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/successful%20remediation.png)
+![Successful Inquiries: Instance](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/successful%20remediation.png)
 
 
 ### 6. UI / Approval
@@ -96,9 +98,8 @@ See `Diagram.png` for the enhanced architecture:
   - Restart instance i-invalidformat
   - Fix server-production-01
 - **Approval**: agent must pause and await explicit "approve" before executing
-
-  ![Valid Inputs]()
-  ![Invalid Inputs]()
+  ![Invalid Input: incident](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/invalid%20incident.png)
+  ![Invalid Input: server](https://github.com/bcjumpman/ec2-ai-agent-enhancement/blob/main/images/invalid%20incident.png)
 
 ### Integration checks
 - Confirm API requests match manual path (endpoint, method, headers, body).
