@@ -29,9 +29,7 @@ See `Diagram.png` for the enhanced architecture:
 
 ## Agent Instructions (drop into AI Agent `Instructions` field)
 
-
-(Short version for the Agent UI:  
-`Extract EC2 ID from incident, ask for approval, then call remediation API and log results.`)
+`Extract EC2 ID from incident, ask for approval, then call remediation API and log results.`
 
 ---
 
